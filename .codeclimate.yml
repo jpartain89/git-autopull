@@ -1,7 +1,9 @@
 ---
 engines:
-  fixme:
+  shellcheck:
     enabled: true
 ratings:
-  paths: []
-exclude_paths: []
+  paths:
+    - git-automap
+exclude_paths:
+  - "*.*"
