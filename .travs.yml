@@ -1,0 +1,16 @@
+sudo: required
+dist: trusty
+language: bash
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install shellcheck
+- git clone https://github.com/peritus/bumpversion.git
+- git clone https://github.com/laurent22/rsync-time-backup.git
+- git clone https://github.com/jpartain89/dotfiles.git
+script:
+- shellcheck -e 2034 2154 1091 git-automap
+- cd ./dotfiles || echo "Couldn't CD into dotfiles!" exit 1
+- ../git-automap
+notifications:
+  slack:
+    secure: NiljaWKIoo06UmIw6W7utErPGHp3KTMJ2udsqGCQUkPrsKI8U0eY/vV/eAEXwXa5xAeM2rodWsBBh6eb1gET311nVxFTqk68vwMEj48ilH1HCJ/7GIJbL5R5ZSEeF8pNITUxe2bBSBlft5TPgDHsZ3JZrEwHMgexh0mlfj9/RtBp3Yw9IswGKY6ljkira7QnrNaI6BGPaSTSmqbI5/RoXXVxKgW48DDzHkX/L64tamVBf0bTALuapHxcvkBL9BWo97YdP6Z+z61rEOjFYONna5cFz0GUW+T2xQHqyBBC/xN0lJkEqnc6shIdLVTsVUhZwdFP9TxVgWodTiC9kw+qrj77kzjRp2peowo79LPEvNb+I2nQ03gVuJstsyPbMP+YozwRM75d2C/O1V5MesBI1L6OxZEIK8Ifwx9j/Y6omigjIgRSYbE8vKJxbpUB+VxOfJXrJG5vdf4nZZwRbdZAHuI7BdJeOrHD0PZp762Du0siS0SratJsqWlp+1nAsKapOeXpAv01Wxb+/GLoIPC+g9+K/cGiPH33Qn2jLBj2ZvlCqQtNUOUlmA4X9GrHl6Q/qsGy/hka1ms4ixWR3IVx0u3pc+XUgG+tMSXYprP4SeBEgYQfdqZWiUEETSP6nenqgmmJ4kwjltw1HY5vLQ3qJtdrngKIGeUVzIWqrEubyU0=
