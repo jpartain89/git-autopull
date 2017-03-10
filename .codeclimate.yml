@@ -2,6 +2,15 @@
 engines:
   shellcheck:
     enabled: true
+    checks:
+      SC2034:
+        enabled: false
+      SC1091:
+        enabled: false
+      SC2145:
+        enabled: false
+      SC1090:
+        enabled: false
 ratings:
   paths:
     - git-automap
