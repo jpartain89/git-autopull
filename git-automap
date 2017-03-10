@@ -1,0 +1,79 @@
+#!/bin/bash -e
+
+# Default git script to run:
+#   git pull
+#   git map fetch --all
+#   git map submodule update
+# on all of your git repo's within the same parent directory.
+
+# Copyright © 2017 JPCDI, JPartain89 and Justin Partain
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Program information
+PROGRAM_NAME="git-automap"
+VERSION="1.0.0"
+#[[ "$@" == *"USERNAME"* ]] || USERNAME="jpartain89"
+
+if [[ ! -e "$(command -v allunix)" ]]; then
+  echo "AllUnix file is missing."
+  wget -O - http://bit.ly/jp_allunix | bash
+fi
+
+source allunix
+git_local_bin_install
+
+# Installation of git-map dependency
+[ -e "${git_install_loc}/git-map-install" ] && . "${git_install_loc}/git-map-install"
+
+function USAGE {
+cat <<- EOF
+${RED}${PROGRAM_NAME}${NORMAL}
+
+${MAGENTA}USAGE :
+      : run ${PROGRAM_NAME} from within a git repo.
+      : Calls git pull, fetch and submodule update --init --recursive${NORMAL}
+
+${BLUE}-V | --version  :    Shows version information
+-C | --copyright:    Shows the shortened copyright info.
+                     If you need more info, please see the full license file in
+                     the repo.${NORMAL}
+EOF
+  EXIT_NORM
+}
+
+git rev-parse
+
+while [ $# -ge 1 ]; do
+  case "$1" in
+    -h | --help ) USAGE; exit 0;;
+    -V | --version ) HELP_VERSION; exit 0;;
+    -C | --copyright ) COPYRIGHT; exit 0;;
+    * ) USAGE; exit 1;;
+  esac
+done
+
+trap 'USAGE; exit 1' SIGHUP SIGINT SIGTERM
+trap 'EXIT_NORM; exit 0' EXIT
+
+function main {
+  sec_separate
+  git map pull 2>&1 &&
+  sec_separate
+  git map fetch --all 2>&1 &&
+  sec_separate
+  git map submodule update --init --recursive 2>&1
+}
+
+main
