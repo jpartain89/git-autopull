@@ -1,4 +1,4 @@
-# Git-AutoMap
+# Git-AutoMap [![Build Status](https://travis-ci.org/jpartain89/git-automap.svg?branch=master)](https://travis-ci.org/jpartain89/git-automap)
 
 More or less a wrapper script for @icefox [git-map](https://github.com/icefox/git-map).
 
