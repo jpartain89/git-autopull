@@ -7,7 +7,7 @@ engines:
         enabled: false
       SC1091:
         enabled: false
-      SC2145:
+      SC2154:
         enabled: false
       SC1090:
         enabled: false
