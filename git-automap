@@ -23,7 +23,7 @@
 
 # Program information
 PROGRAM_NAME="git-automap"
-VERSION="1.0.0"
+VERSION="1.5.0"
 
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
