@@ -4,9 +4,9 @@ language: bash
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install shellcheck
-- git clone https://github.com/peritus/bumpversion.git
-- git clone https://github.com/laurent22/rsync-time-backup.git
-- git clone https://github.com/jpartain89/dotfiles.git
+- git clone https://github.com/peritus/bumpversion.git ~/git/bumpversion
+- git clone https://github.com/laurent22/rsync-time-backup.git ~/git/rsync-time-backup
+- git clone https://github.com/jpartain89/dotfiles.git ~/git/dotfiles
 script:
 - shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
 - cd ./dotfiles || echo "Couldn't CD into dotfiles!" exit 1

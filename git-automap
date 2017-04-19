@@ -27,7 +27,7 @@ VERSION="1.5.5"
 
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
-    wget -O - http://bit.ly/jp_allunix | bash
+    curl -fsSL http://bit.ly/jp_allunix | bash
 fi
 
 source allunix
@@ -36,7 +36,8 @@ git_local_bin_install
 # Installing git-map dependency
 command -v git-map 1>/dev/null 2>&1 || {
     (
-        PROGRAM_NAME="git-automap/git-map"
+        REPO_NAME="git-automap/git-map"
+        PROGRAM_NAME="git-map"
         source allunix
         local_bin_install
     )
