@@ -9,8 +9,9 @@ before_install:
 - git clone https://github.com/jpartain89/dotfiles.git ~/git/dotfiles
 script:
 - shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
+- ./git-automap
 - cd ./dotfiles || echo "Couldn't CD into dotfiles!" exit 1
-- "../git-automap"
+- git automap
 - git -C ~/git-automap automap || echo "git -C automap failed!" exit 1
 notifications:
   slack:
