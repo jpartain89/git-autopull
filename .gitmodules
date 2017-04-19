@@ -1,0 +1,3 @@
+[submodule "git-map"]
+	path = git-map
+	url = https://github.com/icefox/git-map

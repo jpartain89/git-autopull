@@ -1,4 +1,7 @@
 #!/bin/bash -e
+# shellcheck disable=SC2030
+# shellcheck disable=SC2031
+# shellcheck disable=SC1091
 
 # Default git script to run:
 #   git pull
@@ -23,7 +26,7 @@
 
 # Program information
 PROGRAM_NAME="git-automap"
-VERSION="1.5.0"
+VERSION="1.5.5"
 
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
@@ -33,8 +36,14 @@ fi
 source allunix
 git_local_bin_install
 
-# Installation of git-map dependency
-[ -e "${git_install_loc}/git-map-install" ] && . "${git_install_loc}/git-map-install"
+# Installing git-map dependency
+command -v git-map 1>/dev/null 2>&1 || {
+    (
+        PROGRAM_NAME="git-map"
+        source allunix
+        local_bin_install
+    )
+}
 
 function USAGE {
 cat <<- EOF
@@ -44,10 +53,8 @@ USAGE :
       : run ${PROGRAM_NAME} from within a git repo.
       : Calls git pull, fetch and submodule update --init --recursive
 
+-h | --help     :    Shows this info
 -V | --version  :    Shows version information
--C | --copyright:    Shows the shortened copyright info.
-                     If you need more info, please see the full license file in
-                     the repo.
 EOF
     EXIT_NORM
 }
@@ -58,16 +65,13 @@ while [ $# -ge 1 ]; do
     case "$1" in
         -h | --help ) USAGE; exit 0;;
         -V | --version ) HELP_VERSION; exit 0;;
-        -C | --copyright ) COPYRIGHT; exit 0;;
         * ) USAGE; exit 1;;
     esac
 done
 
-trap 'USAGE; exit 1' SIGHUP SIGINT SIGTERM
-trap 'EXIT_NORM; exit 0' EXIT
+trap 'EXIT_NORM; exit 1' SIGHUP SIGINT SIGTERM
 
 function main {
-    echo ""
     git map pull 2>&1 &&
     echo ""
     git map fetch --all 2>&1 &&
