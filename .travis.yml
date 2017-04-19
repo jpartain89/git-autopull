@@ -10,9 +10,9 @@ before_install:
 script:
 - shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
 - bash -ex ./git-automap
-- "cd ~/git/dotfiles || ( echo 'Couldn't CD into dotfiles'; exit 1 )"
+- cd ~/git/dotfiles
 - git automap
-- "cd ~/git/ || ( echo 'Couldn't CD into ~'; exit 1 )"
+- cd ~/git/
 - "git -C ~/git/dotfiles automap || ( echo 'git -C automap failed'; exit 1 )"
 notifications:
   slack:
