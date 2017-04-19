@@ -27,7 +27,7 @@ VERSION="1.5.5"
 
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
-    curl -fsSL http://bit.ly/jp_allunix | bash
+    curl -fsSL https://raw.githubusercontent.com/jpartain89/MyFunctions/master/install.sh | bash
 fi
 
 source allunix
