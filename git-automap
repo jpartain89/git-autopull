@@ -1,7 +1,4 @@
 #!/bin/bash -e
-# shellcheck disable=SC2030
-# shellcheck disable=SC2031
-# shellcheck disable=SC1091
 
 # Default git script to run:
 #   git pull
@@ -39,7 +36,7 @@ git_local_bin_install
 # Installing git-map dependency
 command -v git-map 1>/dev/null 2>&1 || {
     (
-        PROGRAM_NAME="git-map"
+        PROGRAM_NAME="git-automap/git-map"
         source allunix
         local_bin_install
     )
