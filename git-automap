@@ -24,6 +24,7 @@
 # Program information
 PROGRAM_NAME="git-automap"
 VERSION="1.5.5"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
@@ -36,10 +37,8 @@ git_local_bin_install
 # Installing git-map dependency
 command -v git-map 1>/dev/null 2>&1 || {
     (
-        REPO_NAME="git-automap/git-map"
-        PROGRAM_NAME="git-map"
-        source allunix
-        local_bin_install
+        sudo ln -svf "${DIR}/git-map/git-map" /usr/local/bin/git-map
+        sudo chmod -R 0775 /usr/local/bin/git-map
     )
 }
 
@@ -70,11 +69,11 @@ done
 trap 'EXIT_NORM; exit 1' SIGHUP SIGINT SIGTERM
 
 function main {
-    git map pull 2>&1 &&
+    git-map pull 2>&1 &&
     echo ""
-    git map fetch --all 2>&1 &&
+    git-map fetch --all 2>&1 &&
     echo ""
-    git map submodule update --init --recursive 2>&1
+    git-map submodule update --init --recursive 2>&1
 }
 
 main
