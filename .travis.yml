@@ -10,10 +10,10 @@ before_install:
 script:
 - shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
 - bash -ex ./git-automap
-- cd ~/dotfiles || ( echo "Couldn't CD into dotfiles!"; exit 1 )
+- "cd ~/dotfiles || ( echo 'Couldn't CD into dotfiles'; exit 1 )"
 - git automap
-- cd ~
-- git -C ~/dotfiles automap || ( echo "git -C automap failed!"; exit 1 )
+- "cd ~ || ( echo 'Couldn't CD into ~'; exit 1 )"
+- "git -C ~/dotfiles automap || ( echo 'git -C automap failed'; exit 1 )"
 notifications:
   slack:
     secure: SLx1Pg/HXWnztU4HL7a9Cpjoo2rD1dAFMSCu2OYtAqS0ZMMjun6pQ2NyxgWQpPb7RWCVGiXs4K5kBfpKPFEQZ4iIwENkXRINZnhnix1eAPE7IHE0hMLBX2aNqFmHFpuZD9dyfP6cxMKXlmErgCc14aHAxVGp0+JWfaAtj56dW3ojtEBzHZbzKKLH6w+fO6U5IQbSjjsHAQA2dIzcPElx8goLlgjhnsew6FJHLQjFij/4IH6IEPvmTVoQMEoIuyvJV0tnENvhVDRrdXrXs0Yb4hw1IykpBtJfiph7DhXh9kCB2oL/gSYw6HFYLN5y9sPz0wSDZYuQnVtkwlq2CV+kxpDukRHPP/4nczlISvyMJAo9It+lsFNJHzhICSjPEbMpYr2nnvY2JPaaEvsUYwP26FLRfpaOZbWKkgYutZd++el6HCxAd3iYT+oUdYv/IDSp9qY0tF8Dwwk11p3/lyQzA9E64lHNzynHK1DxDaekTvYIabFTJJBH2SvQVYa4aJns5x3vO+crISYQGt7TO4sPEN5sKyixWj5CwTiPTpE/9p/tq5BnpBXIPJL49ULQbeIsttDiQdtIWqGdrvEPzjX1agGCpMG2azISjn/Yjnfjvb6tdJ0FwfX8ybQDmWToYmjt+HtuKydkHzEJnUI3ngW6VfXzND8AufT8DtIiEPDthyg=
