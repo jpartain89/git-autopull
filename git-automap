@@ -29,8 +29,8 @@ VERSION="1.0.0"
 #[[ "$@" == *"USERNAME"* ]] || USERNAME="jpartain89"
 
 if [[ ! -e "$(command -v allunix)" ]]; then
-  echo "AllUnix file is missing."
-  wget -O - http://bit.ly/jp_allunix | bash
+    echo "AllUnix file is missing."
+    wget -O - http://bit.ly/jp_allunix | bash
 fi
 
 source allunix
@@ -41,41 +41,41 @@ git_local_bin_install
 
 function USAGE {
 cat <<- EOF
-${RED}${PROGRAM_NAME}${NORMAL}
+${PROGRAM_NAME}
 
-${MAGENTA}USAGE :
+USAGE :
       : run ${PROGRAM_NAME} from within a git repo.
-      : Calls git pull, fetch and submodule update --init --recursive${NORMAL}
+      : Calls git pull, fetch and submodule update --init --recursive
 
-${BLUE}-V | --version  :    Shows version information
+-V | --version  :    Shows version information
 -C | --copyright:    Shows the shortened copyright info.
                      If you need more info, please see the full license file in
-                     the repo.${NORMAL}
+                     the repo.
 EOF
-  EXIT_NORM
+    EXIT_NORM
 }
 
 git rev-parse
 
 while [ $# -ge 1 ]; do
-  case "$1" in
-    -h | --help ) USAGE; exit 0;;
-    -V | --version ) HELP_VERSION; exit 0;;
-    -C | --copyright ) COPYRIGHT; exit 0;;
-    * ) USAGE; exit 1;;
-  esac
+    case "$1" in
+        -h | --help ) USAGE; exit 0;;
+        -V | --version ) HELP_VERSION; exit 0;;
+        -C | --copyright ) COPYRIGHT; exit 0;;
+        * ) USAGE; exit 1;;
+    esac
 done
 
 trap 'USAGE; exit 1' SIGHUP SIGINT SIGTERM
 trap 'EXIT_NORM; exit 0' EXIT
 
 function main {
-  sec_separate
-  git map pull 2>&1 &&
-  sec_separate
-  git map fetch --all 2>&1 &&
-  sec_separate
-  git map submodule update --init --recursive 2>&1
+    echo ""
+    git map pull 2>&1 &&
+    echo ""
+    git map fetch --all 2>&1 &&
+    echo ""
+    git map submodule update --init --recursive 2>&1
 }
 
 main
