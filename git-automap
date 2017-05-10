@@ -23,7 +23,7 @@
 
 # Program information
 PROGRAM_NAME="git-automap"
-VERSION="1.5.5"
+VERSION="1.5.6"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -ge 1 ]; then CMD_LINE="$1"; fi
@@ -44,7 +44,7 @@ command -v git-map 1>/dev/null 2>&1 || {
     )
 }
 
-function USAGE {
+USAGE() {
 cat <<- EOF
 ${PROGRAM_NAME}
 
@@ -60,7 +60,7 @@ EOF
 
 git rev-parse
 
-function INTERACT() {
+INTERACT() {
     while [ "${CMD_LINE}" -ge 1 ]; do
         case "${CMD_LINE}" in
             -h | --help ) USAGE; exit 0;;
@@ -72,7 +72,7 @@ function INTERACT() {
 
 trap 'EXIT_NORM; exit 1' SIGHUP SIGINT SIGTERM
 
-function main {
+main() {
     git-map pull 2>&1 &&
     echo ""
     git-map fetch --all 2>&1 &&
