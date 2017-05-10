@@ -10,23 +10,26 @@ matrix:
     osx_image: xcode8.3
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qqy shellcheck; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install shellcheck -qqy;
+  fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install shellcheck; fi
-- git clone https://github.com/peritus/bumpversion.git ~/git/bumpversion
-- git clone https://github.com/laurent22/rsync-time-backup.git ~/git/rsync-time-backup
-- git clone https://github.com/jpartain89/dotfiles.git ~/git/dotfiles
+- mkdir git
+install:
+- git clone https://github.com/peritus/bumpversion.git git/bumpversion
+- git clone https://github.com/laurent22/rsync-time-backup git/rsync-time-backup
+- git clone https://github.com/jpartain89/dotfiles.git git/dotfiles
 script:
 - shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
 - bash -ex ./git-automap
-- "cd ~/git/dotfiles || (echo "Couldn't CD into ~/git/dotfiles??" && exit 1)"
-- "git automap || ( echo "git automap failed from within the dotfiles dir." && exit 1)"
-- "cd ~/git/ || (echo "Couldn't CD into ~/git??" && exit 1)"
-- "git -C ~/git/dotfiles automap || ( echo "git -C automap failed." && exit 1 )"
+- cd git/dotfiles
+- git automap
+- cd ../..
+- git -C ~/git/dotfiles automap
 notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
   slack:
-    secure: SLx1Pg/HXWnztU4HL7a9Cpjoo2rD1dAFMSCu2OYtAqS0ZMMjun6pQ2NyxgWQpPb7RWCVGiXs4K5kBfpKPFEQZ4iIwENkXRINZnhnix1eAPE7IHE0hMLBX2aNqFmHFpuZD9dyfP6cxMKXlmErgCc14aHAxVGp0+JWfaAtj56dW3ojtEBzHZbzKKLH6w+fO6U5IQbSjjsHAQA2dIzcPElx8goLlgjhnsew6FJHLQjFij/4IH6IEPvmTVoQMEoIuyvJV0tnENvhVDRrdXrXs0Yb4hw1IykpBtJfiph7DhXh9kCB2oL/gSYw6HFYLN5y9sPz0wSDZYuQnVtkwlq2CV+kxpDukRHPP/4nczlISvyMJAo9It+lsFNJHzhICSjPEbMpYr2nnvY2JPaaEvsUYwP26FLRfpaOZbWKkgYutZd++el6HCxAd3iYT+oUdYv/IDSp9qY0tF8Dwwk11p3/lyQzA9E64lHNzynHK1DxDaekTvYIabFTJJBH2SvQVYa4aJns5x3vO+crISYQGt7TO4sPEN5sKyixWj5CwTiPTpE/9p/tq5BnpBXIPJL49ULQbeIsttDiQdtIWqGdrvEPzjX1agGCpMG2azISjn/Yjnfjvb6tdJ0FwfX8ybQDmWToYmjt+HtuKydkHzEJnUI3ngW6VfXzND8AufT8DtIiEPDthyg=
+    secure: Q8bO+vThmrYIVin/ij4VqF/deF5y1zKppRpoDM01QFABUZQkzanpcR/3tONdRtvlODbLT2cSZvQ0WNdTuWgf/uT2exm7/aRRrXM2h0aCaPvqThb9ckzvi6i+eIKAHPUtLGruARAR7MymBEUrhBLwJI1tKSO9IbDWJ3ZhtbCkTOIL3oaDosCXPla2Yf7DP1FVbAyRS8l4LT757L9b3imhUWOg+ErVcHuPzug+I8Vsu9e5ly6SzMqWe/5B2aQdUTTQNtIkkSIXkl9xjcCDJqXzjQDOKSJfk4rIFUYbUUMtuKLK0pAM18Y+V4J+3u62Oqrh1OnSSk0mydhtqDLkz0A3ImKbAOHsVqcVBvfbVMr27dfsEW8mkfJuy3grQL+tOMIhfPXQXFWbP2j1TM+skkX0mMjvBmD0yFzydNxF/VU9GvACw7uPhUdTEs9UIQ4kKIswfZAIQwza6UDNM+3kYqD1+CHlPx9xB/36C7YChwNXsnHnTWL7Xalkv3uA+VXXLVptBLxRQSLWYBn35KglVW+pKXIPGyWou/nSEctQNRM4JUgh22MQa5HlOAyqZ5yDNXIJJLcVGcJ1rCLsP2ihHDARGYXPIfHavQjaxIINzp+J/5qpEIu7Y5GoZ9Oft6JAeIeI5Z6Ixm5zdGCMKSWaVIBR1H4yyPH+T9PYzAjVv42BKFU=
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
 addons:
   code_climate:
     repo_token: 4fa5844e8900ff96778b2771e9e6baffc4324c656391d7d47a708ae773befe73
