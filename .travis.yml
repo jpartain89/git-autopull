@@ -1,20 +1,30 @@
+language: c
 sudo: required
-dist: trusty
-language: bash
+matrix:
+  include:
+  - os: linux
+    dist: trusty
+  - os: osx
+    osx_image: xcode8
+  - os: osx
+    osx_image: xcode8.3
 before_install:
-- sudo apt-get -qq update
-- sudo apt-get install shellcheck
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -qqy shellcheck; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install shellcheck; fi
 - git clone https://github.com/peritus/bumpversion.git ~/git/bumpversion
 - git clone https://github.com/laurent22/rsync-time-backup.git ~/git/rsync-time-backup
 - git clone https://github.com/jpartain89/dotfiles.git ~/git/dotfiles
 script:
 - shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
 - bash -ex ./git-automap
-- cd ~/git/dotfiles
-- git automap
-- cd ~/git/
-- "git -C ~/git/dotfiles automap || ( echo 'git -C automap failed'; exit 1 )"
+- "cd ~/git/dotfiles || (echo "Couldn't CD into ~/git/dotfiles??" && exit 1)"
+- "git automap || ( echo "git automap failed from within the dotfiles dir." && exit 1)"
+- "cd ~/git/ || (echo "Couldn't CD into ~/git??" && exit 1)"
+- "git -C ~/git/dotfiles automap || ( echo "git -C automap failed." && exit 1 )"
 notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
   slack:
     secure: SLx1Pg/HXWnztU4HL7a9Cpjoo2rD1dAFMSCu2OYtAqS0ZMMjun6pQ2NyxgWQpPb7RWCVGiXs4K5kBfpKPFEQZ4iIwENkXRINZnhnix1eAPE7IHE0hMLBX2aNqFmHFpuZD9dyfP6cxMKXlmErgCc14aHAxVGp0+JWfaAtj56dW3ojtEBzHZbzKKLH6w+fO6U5IQbSjjsHAQA2dIzcPElx8goLlgjhnsew6FJHLQjFij/4IH6IEPvmTVoQMEoIuyvJV0tnENvhVDRrdXrXs0Yb4hw1IykpBtJfiph7DhXh9kCB2oL/gSYw6HFYLN5y9sPz0wSDZYuQnVtkwlq2CV+kxpDukRHPP/4nczlISvyMJAo9It+lsFNJHzhICSjPEbMpYr2nnvY2JPaaEvsUYwP26FLRfpaOZbWKkgYutZd++el6HCxAd3iYT+oUdYv/IDSp9qY0tF8Dwwk11p3/lyQzA9E64lHNzynHK1DxDaekTvYIabFTJJBH2SvQVYa4aJns5x3vO+crISYQGt7TO4sPEN5sKyixWj5CwTiPTpE/9p/tq5BnpBXIPJL49ULQbeIsttDiQdtIWqGdrvEPzjX1agGCpMG2azISjn/Yjnfjvb6tdJ0FwfX8ybQDmWToYmjt+HtuKydkHzEJnUI3ngW6VfXzND8AufT8DtIiEPDthyg=
 addons:
