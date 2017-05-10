@@ -26,12 +26,14 @@ PROGRAM_NAME="git-automap"
 VERSION="1.5.5"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+if [ $# -ge 1 ]; then CMD_LINE="$1"; fi
+
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
     curl -fsSL https://raw.githubusercontent.com/jpartain89/MyFunctions/master/install.sh | bash
 fi
 
-source allunix
+. "$(command -v allunix)"
 git_local_bin_install
 
 # Installing git-map dependency
@@ -58,13 +60,15 @@ EOF
 
 git rev-parse
 
-while [ $# -ge 1 ]; do
-    case "$1" in
-        -h | --help ) USAGE; exit 0;;
-        -V | --version ) HELP_VERSION; exit 0;;
-        * ) USAGE; exit 1;;
-    esac
-done
+function INTERACT() {
+    while [ "${CMD_LINE}" -ge 1 ]; do
+        case "${CMD_LINE}" in
+            -h | --help ) USAGE; exit 0;;
+            -V | --version ) HELP_VERSION; exit 0;;
+            * ) USAGE; exit 1;;
+        esac
+    done
+}
 
 trap 'EXIT_NORM; exit 1' SIGHUP SIGINT SIGTERM
 
@@ -76,4 +80,7 @@ function main {
     git-map submodule update --init --recursive 2>&1
 }
 
-main
+case $- in
+    *i* ) INTERACT; main;;
+    * ) main;;
+esac
