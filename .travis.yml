@@ -10,19 +10,15 @@ matrix:
     osx_image: xcode8.3
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install shellcheck -qqy;
-  fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install shellcheck; fi
-- mkdir git
+- mkdir ~/git
 install:
-- git clone https://github.com/peritus/bumpversion.git git/bumpversion
-- git clone https://github.com/laurent22/rsync-time-backup git/rsync-time-backup
-- git clone https://github.com/jpartain89/dotfiles.git git/dotfiles
+- git clone https://github.com/peritus/bumpversion.git ~/git/bumpversion
+- git clone https://github.com/laurent22/rsync-time-backup ~/git/rsync-time-backup
+- git clone https://github.com/jpartain89/dotfiles.git ~/git/dotfiles
 script:
-- shellcheck -e 2034 -e 1091 -e 2154 -e 1090 -e 2030 -e 2031 ./git-automap
 - bash -ex ./git-automap
-- cd git/dotfiles
+- cd ~/git/dotfiles
 - git automap
 - cd ../..
 - git -C ~/git/dotfiles automap
