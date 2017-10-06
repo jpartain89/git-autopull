@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Default git script to run:
+# Git script to automatically run:
 #   git pull
 #   git map fetch --all
 #   git map submodule update
@@ -22,29 +22,40 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Program information
-PROGRAM_NAME="git-automap"
-VERSION="1.5.6"
+PROGRAM_NAME="git-autopull"
+VERSION="2.0.0"
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# This makes sure that $1 doesn't get lost in the running of all the code
 if [ $# -ge 1 ]; then CMD_LINE="$1"; fi
 
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
-    curl -fsSL https://raw.githubusercontent.com/jpartain89/MyFunctions/master/install.sh | bash
+    wget -O - http://bit.ly/jp_allunix | bash
+else
+    . "$(command -v allunix)"
+    git_local_bin_install &&
+    no_sudo
 fi
 
-. "$(command -v allunix)"
-git_local_bin_install
-
 # Installing git-map dependency
+# It makes sure that the executable exists in the git repo
+# Its a submodule
 command -v git-map 1>/dev/null 2>&1 || {
     (
-        sudo ln -svf "${DIR}/git-map/git-map" /usr/local/bin/git-map
-        sudo chmod -R 0775 /usr/local/bin/git-map
+        if [ -x "${DIR}/git-map/git-map" ]; then
+            sudo ln -svf "${DIR}/git-map/git-map" /usr/local/bin/git-map
+            sudo chmod -R 0775 /usr/local/bin/git-map
+        else
+            echo "The required dependency, git-map, is missing."
+            echo "Its in this git repo as a submodule. Please, fix this!"
+            exit 1
+        fi
     )
 }
 
-USAGE() {
+function USAGE() {
 cat <<- EOF
 ${PROGRAM_NAME}
 
@@ -58,9 +69,7 @@ EOF
     EXIT_NORM
 }
 
-git rev-parse
-
-INTERACT() {
+function INTERACT() {
     while [ "${CMD_LINE}" -ge 1 ]; do
         case "${CMD_LINE}" in
             -h | --help ) USAGE; exit 0;;
@@ -72,7 +81,14 @@ INTERACT() {
 
 trap 'EXIT_NORM; exit 1' SIGHUP SIGINT SIGTERM
 
-main() {
+function main() {
+    # This step causes this script to exit on an error code if not called from within
+    # a git repo on the command line.
+    git rev-parse &>/dev/null || \
+        echo "This was run from outside a git repo" \
+        exit 1
+
+    # Using the 2>&1 forces any error codes onto the command line
     git-map pull 2>&1 &&
     echo ""
     git-map fetch --all 2>&1 &&
@@ -80,6 +96,8 @@ main() {
     git-map submodule update --init --recursive 2>&1
 }
 
+# https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
+# This tests if its being run from an interactive shell, solves any `tty` issues
 case $- in
     *i* ) INTERACT; main;;
     * ) main;;
