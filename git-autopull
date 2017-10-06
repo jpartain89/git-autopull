@@ -33,11 +33,11 @@ if [ $# -ge 1 ]; then CMD_LINE="$1"; fi
 if [[ ! -e "$(command -v allunix)" ]]; then
     echo "AllUnix file is missing."
     wget -O - http://bit.ly/jp_allunix | bash
-else
-    . "$(command -v allunix)"
-    git_local_bin_install &&
-    no_sudo
 fi
+
+. "$(command -v allunix)"
+git_local_bin_install &&
+no_sudo
 
 # Installing git-map dependency
 # It makes sure that the executable exists in the git repo
@@ -89,11 +89,11 @@ function main() {
         exit 1
 
     # Using the 2>&1 forces any error codes onto the command line
-    git-map pull 2>&1 &&
+    git map pull 2>&1 &&
     echo ""
-    git-map fetch --all 2>&1 &&
+    git map fetch --all 2>&1 &&
     echo ""
-    git-map submodule update --init --recursive 2>&1
+    git map submodule update --init --recursive 2>&1
 }
 
 # https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
