@@ -26,4 +26,4 @@ notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
 addons:
   code_climate:
-    repo_token: 4fa5844e8900ff96778b2771e9e6baffc4324c656391d7d47a708ae773befe73
+    repo_token: 166b9e255241e48d0b127ed122f38c9ff5f265fcd5f76a9036520fa89058d853
