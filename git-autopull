@@ -48,8 +48,8 @@ command -v git-map 1>/dev/null 2>&1 || {
 
 command -v git-autopull 1>/dev/null 2>&1 || {
     (
-        if [ -x "${DIR}/git-autopull/git-autopull" ]; then
-            sudo ln -svf "${DIR}/git-autopull/git-autopull" /usr/local/bin/git-autopull
+        if [ -x "${DIR}/git-autopull" ]; then
+            sudo ln -svf "${DIR}/git-autopull" /usr/local/bin/git-autopull
             sudo chmod -R 0775 /usr/local/bin/git-autopull
         else
             echo "For some reason, linking git-autopull to /usr/local/bin,"
