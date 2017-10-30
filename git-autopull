@@ -30,15 +30,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # This makes sure that $1 doesn't get lost in the running of all the code
 if [ $# -ge 1 ]; then CMD_LINE="$1"; fi
 
-if [[ ! -e "$(command -v allunix)" ]]; then
-    echo "AllUnix file is missing."
-    wget -O - http://bit.ly/jp_allunix | bash
-fi
-
-. "$(command -v allunix)"
-git_local_bin_install &&
-no_sudo
-
 # Installing git-map dependency
 # It makes sure that the executable exists in the git repo
 # Its a submodule
@@ -55,6 +46,20 @@ command -v git-map 1>/dev/null 2>&1 || {
     )
 }
 
+command -v git-autopull 1>/dev/null 2>&1 || {
+    (
+        if [ -x "${DIR}/git-autopull/git-autopull" ]; then
+            sudo ln -svf "${DIR}/git-autopull/git-autopull" /usr/local/bin/git-autopull
+            sudo chmod -R 0775 /usr/local/bin/git-autopull
+        else
+            echo "For some reason, linking git-autopull to /usr/local/bin,"
+            echo "failed. My apologies for not being able to figure it out..."
+            exit 1
+        fi
+    )
+}
+
+
 function USAGE() {
 cat <<- EOF
 ${PROGRAM_NAME}
@@ -64,22 +69,19 @@ USAGE :
       : Calls git pull, fetch and submodule update --init --recursive
 
 -h | --help     :    Shows this info
--V | --version  :    Shows version information
 EOF
-    EXIT_NORM
 }
 
 function INTERACT() {
     while [ "${CMD_LINE}" -ge 1 ]; do
         case "${CMD_LINE}" in
             -h | --help ) USAGE; exit 0;;
-            -V | --version ) HELP_VERSION; exit 0;;
             * ) USAGE; exit 1;;
         esac
     done
 }
 
-trap 'EXIT_NORM; exit 1' SIGHUP SIGINT SIGTERM
+trap 'exit 1' SIGHUP SIGINT SIGTERM
 
 function main() {
     # This step causes this script to exit on an error code if not called from within
