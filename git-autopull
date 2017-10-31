@@ -46,6 +46,7 @@ command -v git-map 1>/dev/null 2>&1 || {
     )
 }
 
+# This "auto-installs" git-autopull into /usr/local/bin for ya!
 command -v git-autopull 1>/dev/null 2>&1 || {
     (
         if [ -x "${DIR}/git-autopull" ]; then
@@ -59,7 +60,6 @@ command -v git-autopull 1>/dev/null 2>&1 || {
     )
 }
 
-
 function USAGE() {
 cat <<- EOF
 ${PROGRAM_NAME}
@@ -72,6 +72,7 @@ USAGE :
 EOF
 }
 
+# This bit and the last blurb at the bottom go together.
 function INTERACT() {
     while [ "${CMD_LINE}" -ge 1 ]; do
         case "${CMD_LINE}" in
@@ -84,8 +85,8 @@ function INTERACT() {
 trap 'exit 1' SIGHUP SIGINT SIGTERM
 
 function main() {
-    # This step causes this script to exit on an error code if not called from within
-    # a git repo on the command line.
+    # The `git rev-parse` command is for testing if the current location
+    # in the file system is actually part of a git repo.
     git rev-parse &>/dev/null || \
         echo "This was run from outside a git repo" \
         exit 1
