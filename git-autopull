@@ -47,13 +47,13 @@ command -v git-map 1>/dev/null 2>&1 || {
 }
 
 # This "auto-installs" git-autopull into /usr/local/bin for ya!
-command -v git-autopull 1>/dev/null 2>&1 || {
+command -v "$PROGRAM_NAME" 1>/dev/null 2>&1 || {
     (
-        if [ -x "${DIR}/git-autopull" ]; then
-            sudo ln -svf "${DIR}/git-autopull" /usr/local/bin/git-autopull
-            sudo chmod -R 0775 /usr/local/bin/git-autopull
+        if [ -x "${DIR}/${PROGRAM_NAME}" ]; then
+            sudo ln -svf "${DIR}/${PROGRAM_NAME}" "/usr/local/bin/${PROGRAM_NAME}"
+            sudo chmod -R 0775 "/usr/local/bin/${PROGRAM_NAME}"
         else
-            echo "For some reason, linking git-autopull to /usr/local/bin,"
+            echo "For some reason, linking $PROGRAM_NAME to /usr/local/bin,"
             echo "failed. My apologies for not being able to figure it out..."
             exit 1
         fi
@@ -61,7 +61,7 @@ command -v git-autopull 1>/dev/null 2>&1 || {
 }
 
 function USAGE() {
-cat <<- EOF
+    cat <<- EOF
 ${PROGRAM_NAME}
 
 USAGE :
@@ -76,8 +76,8 @@ EOF
 function INTERACT() {
     while [ "${CMD_LINE}" -ge 1 ]; do
         case "${CMD_LINE}" in
-            -h | --help ) USAGE; exit 0;;
-            * ) USAGE; exit 1;;
+            -h | --help ) USAGE; exit 0 ;;
+            * ) USAGE; exit 1 ;;
         esac
     done
 }
@@ -102,6 +102,6 @@ function main() {
 # https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
 # This tests if its being run from an interactive shell, solves any `tty` issues
 case $- in
-    *i* ) INTERACT; main;;
-    * ) main;;
+    *i* ) INTERACT; main ;;
+    * ) main ;;
 esac
