@@ -23,7 +23,7 @@
 
 # Program information
 PROGRAM_NAME="git-autopull"
-VERSION="2.0.0"
+VERSION="3.0.0"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
