@@ -17,7 +17,3 @@ git map submodule update --init --recursive
 from within one of your locally cloned git repos.
 
 > Note: It HAS to be ran from within a git repo, else it'll close by error.
-
-### Prerequisites
-
-It will also clone my [MyFunctions](https://github.com/jpartain89/myfunctions) git repo, then install the files `allunix`, `colors` and `install_funcs` to `/usr/local/bin`. These are currently needed to run `git-autopull`.
