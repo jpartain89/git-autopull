@@ -4,6 +4,18 @@ More or less a wrapper script for [@icefox's](https://github.com/icefox) [git-ma
 
 Of which, [git-map](https://github.com/icefox/git-map) is an absolutely awesome script. Go use it!
 
+## Installation
+
+To install `git-autopull`:
+
+```bash
+git clone https://github.com/jpartain89/git-autopull.git --recursive
+cd git-autopull
+./git-autopull
+```
+
+Make sure the `--recursive` flag is listed, to include cloning the `git-map` repo. 
+
 ## Usage
 
 This script is a wrapper script to automatically run:
