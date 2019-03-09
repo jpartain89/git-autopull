@@ -58,6 +58,9 @@ USAGE :
 EOF
 }
 
+
+# TODO: Make argument parsing for custom commit messages and other git-required things
+
 PARAMS=""
 
 while (( "$#" )); do
@@ -65,7 +68,7 @@ while (( "$#" )); do
         -m | --message )
             COMMIT_MESSAGE="$2"
             shift 2;;
-        
+
 
 # This makes sure that $1 doesn't get lost in the running of all the code
 if [ $# -ge 1 ]; then cmdLine="$1"; fi
