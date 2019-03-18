@@ -68,9 +68,11 @@ else
     exit 1
 fi
 
+DEFAULT_COM_MESSAGE="Update for $(date '+%m-%d-%Y %H-%M-%S')"
+
 [ -e "${gitLoc}/${PROGRAM_NAME}.log" ] || touch "${gitLoc}/${PROGRAM_NAME}.log"
 
 ( git -C "${gitLoc}" add . && \
-    git -C "${gitLoc}" commit -m "Update for $(date '+%m-%d-%Y %H-%M-%S')" && \
+    git -C "${gitLoc}" commit -m "${DEFAULT_COM_MESSAGE}" && \
     git -C "${gitLoc}" push ) && \
         echo "Finished gitting at $(date)"
