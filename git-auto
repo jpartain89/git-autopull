@@ -73,4 +73,4 @@ fi
 ( git -C "${gitLoc}" add . && \
     git -C "${gitLoc}" commit -m "Update for $(date '+%m-%d-%Y %H-%M-%S')" && \
     git -C "${gitLoc}" push ) && \
-        echo "Finished gitting at $(date)" >> "${gitLoc}/${PROGRAM_NAME}.log"
+        echo "Finished gitting at $(date)"
