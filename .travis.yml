@@ -3,7 +3,7 @@ sudo: required
 matrix:
   include:
   - os: linux
-    dist: trusty
+    dist: xenial
   - os: osx
     osx_image: xcode10.1
 before_install:
