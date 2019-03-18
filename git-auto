@@ -58,18 +58,6 @@ USAGE :
 EOF
 }
 
-
-# TODO: Make argument parsing for custom commit messages and other git-required things
-
-PARAMS=""
-
-while (( "$#" )); do
-    case "$1" in
-        -m | --message )
-            COMMIT_MESSAGE="$2"
-            shift 2;;
-
-
 # This makes sure that $1 doesn't get lost in the running of all the code
 if [ $# -ge 1 ]; then cmdLine="$1"; fi
 
@@ -82,11 +70,9 @@ fi
 
 DEFAULT_COM_MESSAGE="Update for $(date '+%m-%d-%Y %H-%M-%S')"
 
-if
-
 [ -e "${gitLoc}/${PROGRAM_NAME}.log" ] || touch "${gitLoc}/${PROGRAM_NAME}.log"
 
 ( git -C "${gitLoc}" add . && \
-    git -C "${gitLoc}" commit -m "" && \
+    git -C "${gitLoc}" commit -m "${DEFAULT_COM_MESSAGE}" && \
     git -C "${gitLoc}" push ) && \
         echo "Finished gitting at $(date)" >> "${gitLoc}/${PROGRAM_NAME}.log"
