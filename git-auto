@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env
+set -e
 
 # This script is to try to automatically add, commit and push git repos
 # Its also meant to stay as simple as possible.
@@ -69,8 +70,6 @@ else
 fi
 
 DEFAULT_COM_MESSAGE="Update for $(date '+%m-%d-%Y %H-%M-%S')"
-
-[ -e "${gitLoc}/${PROGRAM_NAME}.log" ] || touch "${gitLoc}/${PROGRAM_NAME}.log"
 
 ( git -C "${gitLoc}" add . && \
     git -C "${gitLoc}" commit -m "${DEFAULT_COM_MESSAGE}" && \
