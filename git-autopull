@@ -86,7 +86,7 @@ INTERACT() {
     done
 }
 
-trap 'exit 1' SIGHUP SIGINT SIGTERM
+trap 'die "Trap Called" 1' SIGHUP SIGINT SIGTERM
 
 main() {
     # The `git rev-parse` command is for testing if the current location
