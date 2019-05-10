@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 
 # Git script to automatically run:
 #   git pull
@@ -22,10 +22,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Program information
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROGRAM_NAME="git-autopull"
 VERSION="3.0.0"
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+die() {
+    echo "$PROGRAM_NAME: $1" >&2
+    exit "${2:-1}"
+}
 
 # This makes sure that $1 doesn't get lost in the running of all the code
 if [ $# -ge 1 ]; then CMD_LINE="$1"; fi
