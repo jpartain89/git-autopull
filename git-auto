@@ -28,6 +28,7 @@ VERSION="2.0.0"
 
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 [ -e /usr/local/Cellar ] && export PATH="$PATH:/usr/local/Cellar"
+[ -e /usr/local/MacGPG2/bin/gpg2 ] && export PATH="/usr/local/MacGPG2/bin/gpg2:$PATH"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
