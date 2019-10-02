@@ -23,8 +23,7 @@ set -e
 
 # Program Info
 PROGRAM_NAME="git-auto"
-REPO_NAME="generalscripts"
-VERSION="2.0.0"
+VERSION="2.0.1"
 
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 [ -e /usr/local/Cellar ] && export PATH="$PATH:/usr/local/Cellar"
