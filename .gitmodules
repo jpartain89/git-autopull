@@ -1,0 +1,3 @@
+[submodule "git-map"]
+	path = git-map
+	url = git@github.com:jpartain89/git-map.git
