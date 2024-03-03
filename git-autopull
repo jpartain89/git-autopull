@@ -106,8 +106,8 @@ main() {
 # https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
 # This tests if its being run from an interactive shell, solves any `tty` issues
 case $- in
-    -o ) git pull 2>&1 &&;
-        git fetch --all 2>&1 &&;
+    -o ) git pull 2>&1 &&
+        git fetch --all 2>&1 &&
         git submodule update --init --recursive 2>&1;
         exit;;
     *i* ) INTERACT; main ;;
