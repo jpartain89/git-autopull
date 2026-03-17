@@ -71,7 +71,7 @@ fi
 
 DEFAULT_COM_MESSAGE="Update for $(date '+%m-%d-%Y %H-%M-%S')"
 
-( git -C "${gitLoc}" add . && \
+( git -C "${gitLoc}" add "${gitLoc}" && \
     git -C "${gitLoc}" commit -m "${DEFAULT_COM_MESSAGE}" && \
     git -C "${gitLoc}" push ) && \
         echo "Finished gitting at $(date)"
